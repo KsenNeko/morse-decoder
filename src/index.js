@@ -43,28 +43,21 @@ function decode(expr) {
   for (let i = 0; i < expr.length; i += 11) {
     expr = expr.replace("**********", " ");
   }
-  for (let i = 0; i < expr.length; i++) {
-    if (
-      expr[i] === "0" &&
-      expr[i + 1] !== "0" &&
-      expr[i + 1] !== "1" &&
-      expr[i + 1] !== " "
-    ) {
-      let key = "";
-      let j = i;
-      while (
-        expr[j + 1] !== "0" &&
-        expr[j + 1] !== "1" &&
-        expr[j + 1] !== " " &&
-        j + 1 < expr.length
-      ) {
-        key += expr[j + 1];
-        j++;
+  for(let i = 0; i < expr.length; i++)
+  {
+      for(let j = 5; j > 0; j--)
+      {
+          if(MORSE_TABLE[expr.substring(i, i+j)])
+          {
+              expr = expr.replace(expr.substring(i, i+j), MORSE_TABLE[expr.substring(i, i+j)]);
+              j =0;
+          }
       }
-      expr = expr.replace(key, MORSE_TABLE[key]);
-    }
   }
   expr = expr.replace(new RegExp("0", "g"), "");
+  for (let i = 0; i < expr.length; i += 11) {
+    expr = expr.replace("**********", " ");
+  }
   return expr;
 }
 
