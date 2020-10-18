@@ -53,7 +53,7 @@ function decode(expr) {
   }
   morse[" "] = "**********";
   let arr = [];
-  for(let i=0; i< expr.length-10; i+=10)
+  for(let i=0; i< expr.length; i+=10)
   arr.push(expr.substring(i, i+10));
   let res = [];
   for( i in arr) 
