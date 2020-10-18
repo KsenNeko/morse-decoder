@@ -38,7 +38,7 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-  let morse = {};
+   let morse = {};
   for (let name in MORSE_TABLE) {
     morse[Object.values(MORSE_TABLE[name])] = name;
   }
