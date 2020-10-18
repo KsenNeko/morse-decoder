@@ -38,27 +38,29 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-  expr = expr.replace(new RegExp("11", "g"), "-");
-  expr = expr.replace(new RegExp("10", "g"), ".");
-  for (let i = 0; i < expr.length; i += 11) {
-    expr = expr.replace("**********", " ");
+  let morse = {};
+  for (let name in MORSE_TABLE) {
+    morse[Object.values(MORSE_TABLE[name])] = name;
   }
-  for(let i = 0; i < expr.length; i++)
+  for (let letter in morse) {
+    let zeros = 10 - morse[letter].length * 2;
+    let str = "0";
+    str = str.repeat(zeros);
+    morse[letter] =
+      str + morse[letter].split("").map((item) => {
+          return item == "." ? (item = "10") : (item = "11");
+        }).join("");
+  }
+  morse[" "] = "**********";
+  let arr = [];
+  for(let i=0; i< expr.length-10; i+=10)
+  arr.push(expr.substring(i, i+10));
+  let res = [];
+  for( i in arr) 
   {
-      for(let j = 5; j > 0; j--)
-      {
-          if(MORSE_TABLE[expr.substring(i, i+j)])
-          {
-              expr = expr.replace(expr.substring(i, i+j), MORSE_TABLE[expr.substring(i, i+j)]);
-              j =0;
-          }
-      }
+      res.push(Object.keys(morse).find(key => morse[key] === arr[i]));
   }
-  expr = expr.replace(new RegExp("0", "g"), "");
-  for (let i = 0; i < expr.length; i += 11) {
-    expr = expr.replace("**********", " ");
-  }
-  return expr;
+    return res.join('');
 }
 
 module.exports = {
